@@ -3,11 +3,11 @@ import { createArticle, getArticles } from "../services/articles.service";
 
 export const articleRouter = express.Router();
 
-articleRouter.post('/', (req: Request, res: Response) => {
+articleRouter.post('/', async (req: Request, res: Response) => {
   const { body } = req;
   try {
-    createArticle(body);
-    res.status(200).send(body);
+    const result = await createArticle(body);
+    res.status(200).send(result);
   } catch (e) {
     res.status(500).send('Error on back');
   }

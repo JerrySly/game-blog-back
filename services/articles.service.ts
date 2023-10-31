@@ -12,14 +12,15 @@ interface ArticlePageRequest extends PageRequest {
 
 }
 
-export const createArticle = (newArticle: ArticleCreateModel) => {
+export const createArticle = async (newArticle: ArticleCreateModel) => {
   const article = Article.build({
     ...newArticle,
   })
-  article.save();
+  return await article.save();
 };
 
 export const getArticles = async (request: ArticlePageRequest): Promise<Article[]> => {
+  console.log(request)
   const data = await Article.findAll({
     limit: request.amount,
     offset: (request.pageNumber - 1) * request.amount
