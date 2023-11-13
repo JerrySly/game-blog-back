@@ -5,8 +5,9 @@ import './database';
 import { articleRouter } from './routes/articles';
 import { createLogger, loggerInstance } from './utils/logger';
 import imageRouter from './routes/images';
-import { existsSync, readFile } from 'fs';
+import { existsSync } from 'fs';
 import path from 'path';
+import { error } from 'console';
 dotenv.config();
 
 const app = express();
@@ -20,23 +21,16 @@ const corsOption: CorsOptions = {
 
 app.use(cors(corsOption));
 app.use(express.json());
+app.use('/image', express.static('images', {
+  fallthrough: true,
+}))
 app.use('/article', articleRouter)
 app.use('/images', imageRouter)
-// app.use('/image', express.static('images', {
-//   fallthrough: true,
-// }))
-
-
-app.use('/image', function (req: Request, res: Response, next: any) {
-  let array = req.originalUrl.split("/");
-  const filePath = path.join(__dirname,'..', `images/${array[array.length - 1]}`);
-  console.log(array, filePath);
-  if (!existsSync(filePath)) {
-    res.send('Not found');
-    return;
-  }
-  return next();
+app.use((req: Request, res: Response) => {
+  res.status(200).send('Page not found');
 })
+
+
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);

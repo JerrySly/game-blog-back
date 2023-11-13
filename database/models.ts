@@ -12,6 +12,8 @@ export class Article extends Model {
   startText: string;
   mainText: string;
   title: string;
+  uuid: string;
+  isHidden: string
 }
 
 export const defineModels = (sequelize: Sequelize) => {
@@ -20,6 +22,9 @@ export const defineModels = (sequelize: Sequelize) => {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
+    },
+    uuid: {
+      type: DataTypes.UUIDV4,
     },
     email: {
       type: DataTypes.STRING,
@@ -43,11 +48,18 @@ export const defineModels = (sequelize: Sequelize) => {
       type: DataTypes.STRING
     },
     startText: {
-      type: DataTypes.STRING
+      type: DataTypes.TEXT
     },
     mainText: {
-      type: DataTypes.STRING
+      type: DataTypes.TEXT
     },
+    isHidden: {
+      type: DataTypes.BOOLEAN,
+    },
+    uuid: {
+      type: DataTypes.UUID,
+      primaryKey: true,
+    }
   }, { sequelize });
   sequelize.sync();
 }

@@ -5,7 +5,7 @@ import path from "path";
 const storageEngine = multer.diskStorage({
   destination: `./images`,
   filename: (req, file, cb) => {
-    cb(null, `${req.body.id}-${file.originalname}`);
+    cb(null, `${req.query.uuid}-${file.originalname}`);
   }
 })
 
